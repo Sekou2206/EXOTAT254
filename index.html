@@ -37,7 +37,6 @@ h1,h2,h3{font-family:'Fredoka One',cursive;font-weight:400;}
 .lilo-bubble .lilo-title{font-weight:900;margin-bottom:4px;font-size:.95rem;}
 .lilo-bubble .lilo-title.err{color:#e63946;}
 .lilo-bubble .lilo-title.ok{color:#2ecc71;}
-.lilo-bubble .lilo-example{background:#f0f8ff;padding:8px 10px;border-radius:8px;margin-top:6px;font-size:.82rem;border-left:3px solid #4fc3f7;}
 
 .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;transition:all .22s;text-decoration:none;white-space:nowrap;}
 .btn:hover{transform:translateY(-2px);filter:brightness(1.1);}
@@ -50,7 +49,6 @@ h1,h2,h3{font-family:'Fredoka One',cursive;font-weight:400;}
 
 .theme-grammaire{background:linear-gradient(180deg,#2c1810,#4a2511,#6b3520);--primary:#f39c12;--secondary:#e74c3c;--accent:#fef9e7;--card:rgba(243,156,18,.08);--text:#fef9e7;}
 .theme-maths{background:linear-gradient(180deg,#0a2647,#1a4a72,#296e8f);--primary:#3498db;--secondary:#2ecc71;--accent:#ecf0f1;--card:rgba(52,152,219,.08);--text:#ecf0f1;}
-.theme-resultat{background:linear-gradient(180deg,#1a1a2e,#2d2d4a,#404068);--primary:#9b59b6;--secondary:#3498db;--accent:#f8f8ff;--card:rgba(155,89,182,.08);--text:#f8f8ff;}
 
 .exercise-page{padding:68px 14px 44px;align-items:center;}
 .ex-header{text-align:center;margin-bottom:18px;max-width:680px;width:100%;}
@@ -132,7 +130,7 @@ tr:nth-child(even){background:rgba(128,128,128,.05);}
     </div>
     <div class="menu-card" style="background:linear-gradient(135deg,#3498db20,#0a2647);" onclick="goTo('maths')">
       <i style="color:#3498db;">🔢</i>
-      <h3 style="color:#3498db;">Exercice 2</h3>
+      <h3 style="color:#349db;">Exercice 2</h3>
       <p>Problèmes de fractions</p>
     </div>
   </div>
@@ -148,7 +146,7 @@ tr:nth-child(even){background:rgba(128,128,128,.05);}
 const TOTAL = 10;
 
 function goTo(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.'.page').forEach(p => p.classList.remove('active'));
   const t = document.getElementById('page-' + id);
   if (t) {
     t.classList.add('active');
@@ -189,7 +187,7 @@ function exHead(icon, title, sub) {
 }
 
 // ============================================
-// EXERCICE 1 - GRAMMAIRE (LE FÉMININ)
+// EXERCICE 1 - GRAMMAIRE (LE FÉMININ) - TABLEAU CORRIGÉ
 // ============================================
 function initGrammaire() {
   const page = document.getElementById('page-grammaire');
@@ -206,17 +204,18 @@ function initGrammaire() {
     `<div class="q-row"><label>• ce gentil cheval →</label><input data-i="3" placeholder="..."><span class="result"></span></div>` +
     `<div class="q-row"><label>• ce passager patient →</label><input data-i="4" placeholder="..."><span class="result"></span></div></div>` +
 
-    // Partie 2 : Reproduction du tableau
-    `<div class="ex-section"><h2>📋 Partie 2 — Reproduction du tableau</h2>` +
-    `<p class="q-text">Classe ces groupes nominaux dans le tableau :</p>` +
+    // Partie 2 : Reproduction du tableau - CORRIGÉ
+    `<div class="ex-section"><h2>📋 Partie 2 — Classe les groupes nominaux</h2>` +
+    `<p class="q-text">Écris chaque groupe dans la <b>bonne colonne</b> (Masculin ou Féminin) :</p>` +
+    `<p class="q-text" style="background:rgba(243,156,18,.15);padding:10px;border-radius:8px;font-size:.85rem;"><i class="fas fa-info-circle"></i> <b>Astuce :</b> Regarde bien le genre de la phrase donnée ! Si c'est déjà au masculin, recopie-le dans la colonne Masculin. Si c'est déjà au féminin, recopie-le dans la colonne Féminin.</p>` +
     `<div class="table-container"><table>` +
-    `<thead><tr><th>Masculin</th><th>Féminin</th></tr></thead>` +
+    `<thead><tr><th style="width:45%;">Groupe donné</th><th style="width:27.5%;">Masculin</th><th style="width:27.5%;">Féminin</th></tr></thead>` +
     `<tbody>` +
-    `<tr><td>des chiens affamés</td><td><input data-i="5" placeholder="Écris le féminin..." style="width:100%;"></td></tr>` +
-    `<tr><td>une étudiante sérieuse</td><td><input data-i="6" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
-    `<tr><td>des casques médiévaux</td><td><input data-i="7" placeholder="Écris le féminin..." style="width:100%;"></td></tr>` +
-    `<tr><td>les jolies statues</td><td><input data-i="8" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
-    `<tr><td>les feuilles volantes</td><td><input data-i="9" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
+    `<tr><td style="font-weight:600;">des chiens affamés</td><td><input data-i="5" placeholder="ou copie ici..." style="width:100%;"></td><td><input data-i="5f" placeholder="ou copie ici..." style="width:100%;"></td></tr>` +
+    `<tr><td style="font-weight:600;">une étudiante sérieuse</td><td><input data-i="6" placeholder="ou copie ici..." style="width:100%;"></td><td><input data-i="6f" placeholder="ou copie ici..." style="width:100%;"></td></tr>` +
+    `<tr><td style="font-weight:600;">des casques médiévaux</td><td><input data-i="7" placeholder="ou copie ici..." style="width:100%;"></td><td><input data-i="7f" placeholder="ou copie ici..." style="width:100%;"></td></tr>` +
+    `<tr><td style="font-weight:600;">les jolies statues</td><td><input data-i="8" placeholder="ou copie ici..." style="width:100%;"></td><td><input data-i="8f" placeholder="ou copie ici..." style="width:100%;"></td></tr>` +
+    `<tr><td style="font-weight:600;">les feuilles volantes</td><td><input data-i="9" placeholder="ou copie ici..." style="width:100%;"></td><td><input data-i="9f" placeholder="ou copie ici..." style="width:100%;"></td></tr>` +
     `</tbody></table></div></div>` +
 
     // Partie 3 : Transposition
@@ -260,9 +259,9 @@ function initGrammaire() {
     `<div class="explanation-item"><q>ce passager patient</q><div class="exp-answer">→ cette passagère patiente</div><div class="exp-detail"><b>Changements :</b> ce → cette, passager → passagère, patient → patiente.</div></div>` +
 
     `<h3 style="margin-top:20px;"><i class="fas fa-table"></i> Tableau Masculin/Féminin</h3>` +
-    `<div class="explanation-item"><q>des chiens affamés</q><div class="exp-answer">→ des chiennes affamées</div><div class="exp-detail">Ajout d'un "e" au nom.</div></div>` +
-    `<div class="explanation-item"><q>une étudiante sérieuse</q><div class="exp-answer">→ un étudiant sérieux</div><div class="exp-detail">Remplacement de "e" par rien ou "x", "e" par "eux".</div></div>` +
-    `<div class="explanation-item"><q>des casques médiévaux</q><div class="exp-answer">→ des casques médiévales</div><div class="exp-detail">Adjectif : médiéval → médiévale (ajout d'un "e").</div></div>` +
+    `<div class="explanation-item"><q>des chiens affamés</q><div class="exp-answer">→ Colonne Masculin (déjà masculin)</div><div class="exp-detail">Ce groupe est déjà au masculin ! Tu dois le recopier tel quel dans la colonne "Masculin".</div></div>` +
+    `<div class="explanation-item"><q>une étudiante sérieuse</q><div class="exp-answer">→ Colonne Féminin (déjà féminin)</div><div class="exp-detail">Ce groupe est déjà au féminin ! Tu dois le recopier tel quel dans la colonne "Féminin".</div></div>` +
+    `<div class="explanation-item"><q>des casques médiévaux</q><div class="exp-answer">→ des casques médiévales</div><div class="exp-detail">Adjectif : médiéval → médiévale (ajout d'un "e"). Le nom "casque" ne change pas.</div></div>` +
     `<div class="explanation-item"><q>les jolies statues</q><div class="exp-answer">→ les jolis statuts</div><div class="exp-detail">Adjectif : jolie → joli (masculin), statue → statut (nom).</div></div>` +
     `<div class="explanation-item"><q>les feuilles volantes</q><div class="exp-answer">→ les feuils volants</div><div class="exp-detail">Nom : feuille → feuil (masculin), adjectif inchangé.</div></div>` +
 
@@ -270,7 +269,7 @@ function initGrammaire() {
     `<div class="explanation-item"><q>un avocat renommé</q><div class="exp-answer">→ une avocate renommée</div><div class="exp-detail">un → une, avocat → avocate.</div></div>` +
     `<div class="explanation-item"><q>un sportif musclé</q><div class="exp-answer">→ une sportive musclée</div><div class="exp-detail">un → une, sportif → sportive.</div></div>` +
     `<div class="explanation-item"><q>un musicien talentueux</q><div class="exp-answer">→ une musicienne talentueuse</div><div class="exp-detail">un → une, musicien → musicienne.</div></div>` +
-    `<div class="explanation-item"><q>un chat sauvage</q><div class="exp-answer">→ une chatte sauvage</div><div class="exp-detail">un → une, chat → chatte.</div></div>` +
+    `<div class="explanation-item"><q>un chat sauvage</q><div class="exp-answer">→ une chatte sauvage</div><div class="detail">un → une, chat → chatte.</div></div>` +
 
     `<h3 style="margin-top:20px;"><i class="fas fa-spell-check"></i> Féminin des adjectifs</h3>` +
     `<div class="explanation-item"><q>sec</q><div class="exp-answer">→ sèche</div></div>` +
@@ -278,13 +277,28 @@ function initGrammaire() {
     `<div class="explanation-item"><q>faux</q><div class="exp-answer">→ fausse</div></div>` +
     `<div class="explanation-item"><q>frais</q><div class="exp-answer">→ fraîche</div></div>` +
     `<div class="explanation-item"><q>valide</q><div class="exp-answer">→ valide</div><div class="exp-detail">Cet adjectif est invariant !</div></div>` +
+
+    `<h3 style="margin-top:20px;"><i class="fas fa-puzzle-piece"></i> Complétion</h3>` +
+    `<div class="explanation-item"><q>la petite ... lumineuse</q><div class="exp-answer">→ lampe (par exemple)</div><div class="exp-detail">Tout nom convient tant qu'il est au singulier et cohérent.</div></div>` +
+    `<div class="explanation-item"><q>une vieille ... abandonnée</q><div class="exp-answer">→ maison (par exemple)</div><div class="exp-detail">Tout nom singulier qui a du sens.</div></div>` +
+    `<div class="explanation-item"><q>une longue ... sinueuse</q><div class="exp-answer">→ route (par exemple)</div><div class="exp-detail">Tout nom singulier cohérent.</div></div>` +
+    `<div class="explanation-item"><q>une nouvelle ... brillante</q><div class="exp-answer">→ étoile (par exemple)</div><div class="exp-detail">Tout nom singulier cohérent.</div></div>` +
     `</div></div>`;
 
+  // Réponses avec VARIANTES acceptables pour le tableau
   window._grAns=[
-    'ma sœur ainée','une pauvre marchande',"l'amie étrange",'cette gentille jument','cette passagère patiente',
-    'des chiennes affamées','un étudiant sérieux','des casques médiévales','les jolis statuts','les feuils volants',
+    'ma sœur ainée','une pauvre marche',"l'amie étrange",'cette gentille jument','cette passagère patiente',
+    // Index 5-9 : tableau - on vérifie les deux colonnes
+    'des chiens affamés',  // ou 'chiennes affamées' ou 'chiens affamés'
+    'un étudiant sérieux',   // ou 'étudiante sérieuse'  
+    'des casques médiévales', // ou 'casques médiévales'
+    'les jolis statuts',     // ou 'jolies statues'
+    'les feuils volants',    // ou 'feuilles volantes'
+    // Transposition
     'une avocate renommée','une sportive musclée','une musicienne talentueuse','une chatte sauvage',
+    // Adjectifs
     'sèche','rousse','fausse','fraîche','valide',
+    // Complétion
     'lampe','maison','route','étoile'
   ];
   
@@ -294,9 +308,9 @@ function initGrammaire() {
     'ami→amie',
     'cheval→jument, ce→cette, gentil→gentille',
     'passager→passagère, ce→cette',
-    'chien→chienne (+e)',
-    'étudiante→étudiant (-e)',
-    'médiéval→médiévale',
+    'Déjà masculin ! Recopie-le tel quel.',
+    'Déjà féminin ! Recopie-le tel quel.',
+    'médiéval→médiévale (+e)',
     'jolie→joli, statue→statut',
     'feuille→feuil',
     'avocat→avocate',
@@ -313,6 +327,81 @@ function initGrammaire() {
     'ex: route, vallée...',
     'ex: étoile, lune...'
   ];
+}
+
+// FONCTION DE VÉRIFICATION AMÉLIORÉE - Accepte les variantes
+function checkAll(cid, ans, hints, exId) {
+  const c = document.getElementById(cid);
+  if (!c) return false;
+  const inputs = c.querySelectorAll('input[data-i]');
+  let allOk = true, firstErr = null;
+  let checkedCount = 0;
+  
+  inputs.forEach(inp => {
+    const idx = parseInt(inp.dataset.i);
+    if(isNaN(idx)) return;
+    
+    const val = inp.value.trim().toLowerCase().replace(/\s+/g,' ').replace(/,/g,'.');
+    const correct = ans[idx];
+    
+    // Vérification flexible avec variantes
+    let ok = checkAnswerFlexible(val, correct);
+    
+    const r = inp.parentElement.querySelector('.result') || document.createElement('span');
+    r.className = 'result';
+    
+    if (ok) { 
+      r.className='result ok'; 
+      r.innerHTML=' <i class="fas fa-check-circle"></i>'; 
+      inp.style.borderColor='#2ecc71'; 
+      checkedCount++;
+    } else { 
+      allOk=false; 
+      r.className='result fail'; 
+      r.innerHTML=' <i class="fas fa-times-circle"></i>'; 
+      inp.style.borderColor='#e63946'; 
+      if(!firstErr) firstErr={idx,hint:hints[idx],ans:correct}; 
+    }
+    if (!inp.parentElement.querySelector('.result')) inp.parentElement.appendChild(r);
+  });
+  
+  if (allOk && checkedCount === inputs.length) { 
+    showLilo('Bravo ! 🎉','Toutes les réponses sont correctes ! Excellent travail !','right'); 
+    if (!localStorage.getItem('td_' + exId)) { 
+      localStorage.setItem('td_' + exId, '1'); 
+      addP(5); 
+    } 
+  } else if (checkedCount > 0) {
+    showLilo('Presque... 💪',firstErr.hint,'wrong',`<b>Réponse attendue :</b> ${firstErr.ans}`); 
+  }
+  return allOk;
+}
+
+// Fonction de vérification flexible
+function checkAnswer(val, correct) {
+  if (!val) return false;
+  val = val.toLowerCase().trim();
+  
+  // Si c'est exact → OK
+  if (val === correct.toLowerCase()) return true;
+  
+  // Liste de variantes acceptables selon l'index
+  const variants = {
+    5: ['des chiens affamés', 'chiens affamés', 'chiennes affamés'],
+    6: ['un étudiant sérieux', 'étudiant sérieux'],
+    7: ['des casques médiévales', 'casques médiévales'],
+    8: ['les jolis statuts', 'jolies statues'],
+    9: ['les feuils volants', 'feuilles volantes']
+  };
+  
+  // Si on a des variantes pour cet index
+  if (variants[correct]) {
+    return variants[correct].some(v => val.includes(v) || v.includes(val));
+  }
+  
+  // Vérification partielle (si la réponse contient les mots clés)
+  const words = correct.split(' ');
+  return words.every(w => val.includes(w) || w.includes(val));
 }
 
 function chkGram(){
@@ -414,7 +503,7 @@ function initMaths() {
     `• Méthode 2 : 96 × 2/3 = <b>64 pages</b></div></div>` +
 
     `<h3 style="margin-top:20px;"><i class="fas fa-info-circle"></i> Rappel important</h3>` +
-    `<div class="explanation-item" style="border-left-color:#f39c12;"><b>Pour calculer une fraction d'un nombre :</b><br>` +
+    `<div class="explanation-item" style="border-left-color:#3498db;"><b>Pour calculer une fraction d'un nombre :</b><br>` +
     `• Multiplier le nombre par le numérateur (en haut)<br>` +
     `• Diviser le résultat par le dénominateur (en bas)<br><br>` +
     `<b>Exemple :</b> 3/4 de 200 = 200 × 3 ÷ 4 = 600 ÷ 4 = 150</div></div>` +
@@ -446,53 +535,13 @@ function restartMath(){
   });
   document.getElementById('mtExp').classList.remove('show');
   hideLilo();
-  window.scrollTo({top: 100, behavior: 'smooth'});
-}
-
-// Fonction utilitaire de vérification
-function checkAll(cid, ans, hints, exId) {
-  const c = document.getElementById(cid);
-  if (!c) return false;
-  const inputs = c.querySelectorAll('input[data-i]');
-  let allOk = true, firstErr = null;
-  inputs.forEach(inp => {
-    const idx = parseInt(inp.dataset.i);
-    const val = inp.value.trim().toLowerCase().replace(/\s+/g,' ').replace(/,/g,'.');
-    const correct = ans[idx].toLowerCase().replace(/\s+/g,' ').replace(/,/g,'.');
-    let ok = val === correct;
-    if (!ok && val.length > 1 && correct.includes(val)) ok = true;
-    const r = inp.parentElement.querySelector('.result') || document.createElement('span');
-    r.className = 'result';
-    if (ok) { 
-      r.className='result ok'; 
-      r.innerHTML=' <i class="fas fa-check-circle"></i>'; 
-      inp.style.borderColor='#2ecc71'; 
-    } else { 
-      allOk=false; 
-      r.className='result fail'; 
-      r.innerHTML=' <i class="fas fa-times-circle"></i>'; 
-      inp.style.borderColor='#e63946'; 
-      if(!firstErr) firstErr={idx,hint:hints[idx],ans:ans[idx]}; 
-    }
-    if (!inp.parentElement.querySelector('.result')) inp.parentElement.appendChild(r);
-  });
-  if (allOk) { 
-    showLilo('Bravo ! 🎉','Toutes les réponses sont correctes ! Excellent travail !','right'); 
-    if (!localStorage.getItem('td_' + exId)) { 
-      localStorage.setItem('td_' + exId, '1'); 
-      addP(5); 
-    } 
-  } else { 
-    showLilo('Oups... 😅',firstErr.hint,'wrong',`<b>Bonne réponse :</b> ${firstErr.ans}`); 
-  }
-  return allOk;
+  window.scrollTo({top: 100, behavior:smooth});
 }
 
 // Initialisation
 renderMenu();
 
-function renderMenu() {
-  // Menu déjà en HTML statique, juste mettre à jour les étoiles si besoin
+function renderMenu(){
   updUI();
 }
 </script>
