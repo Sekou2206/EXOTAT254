@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Exercices de Grammaire & Maths</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;overflow-x:hidden;background:#0a0a1a;-webkit-text-size-adjust:100%;}
+h1,h2,h3{font-family:'Fredoka One',cursive;font-weight:400;}
+
+.page{display:none;min-height:100vh;min-height:100dvh;position:relative;overflow-x:hidden;}
+.page.active{display:flex;flex-direction:column;animation:fadeUp .4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes slideIn{from{transform:translateX(70px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes popIn{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+.points-bar{position:fixed;top:0;left:0;right:0;z-index:9999;padding:7px 12px;display:flex;align-items:center;gap:10px;background:rgba(10,10,26,.93);backdrop-filter:blur(14px);border-bottom:2px solid rgba(255,182,193,.25);}
+.points-bar .logo{color:#ffb6c1;font-family:'Fredoka One',cursive;font-size:.9rem;}
+.points-bar .stars{color:#ffd700;font-size:1rem;display:flex;align-items:center;gap:5px;}
+.points-bar .progress{flex:1;max-width:240px;height:7px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;}
+.points-bar .progress-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ff69b4);border-radius:10px;transition:width .6s ease;}
+
+.lilo-bubble{position:fixed;bottom:14px;right:14px;z-index:9998;display:none;flex-direction:column;align-items:flex-end;gap:7px;max-width:calc(100vw - 28px);animation:slideIn .3s ease;}
+.lilo-bubble.show{display:flex;}
+.lilo-bubble .bubble{background:#fff;color:#333;padding:14px 15px;border-radius:18px 18px 4px 18px;max-width:320px;font-size:.88rem;line-height:1.5;box-shadow:0 5px 22px rgba(0,0,0,.25);}
+.lilo-bubble .bubble.wrong{border:3px solid #e63946;}
+.lilo-bubble .bubble.right{border:3px solid #2ecc71;}
+.lilo-bubble .lilo-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#4fc3f7,#0288d1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 3px 10px rgba(0,0,0,.3);border:3px solid #fff;}
+.lilo-bubble .close-lilo{position:absolute;top:-6px;right:-6px;width:21px;height:21px;border-radius:50%;background:#e63946;color:#fff;border:none;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;}
+.lilo-bubble .lilo-title{font-weight:900;margin-bottom:4px;font-size:.95rem;}
+.lilo-bubble .lilo-title.err{color:#e63946;}
+.lilo-bubble .lilo-title.ok{color:#2ecc71;}
+.lilo-bubble .lilo-example{background:#f0f8ff;padding:8px 10px;border-radius:8px;margin-top:6px;font-size:.82rem;border-left:3px solid #4fc3f7;}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;transition:all .22s;text-decoration:none;white-space:nowrap;}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1);}
+.btn:active{transform:translateY(0) scale(.97);}
+.btn-back{position:absolute;top:54px;left:10px;z-index:100;background:rgba(0,0,0,.35);color:#fff;padding:7px 16px;font-size:.82rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);}
+.btn-back:hover{background:rgba(255,255,255,.15);}
+.btn-submit{margin-top:14px;align-self:center;padding:11px 32px;}
+.btn-restart{margin-top:14px;align-self:center;padding:11px 32px;background:#9b59b6;color:#fff;}
+.btn-restart:hover{background:#8e44ad;}
+
+.theme-grammaire{background:linear-gradient(180deg,#2c1810,#4a2511,#6b3520);--primary:#f39c12;--secondary:#e74c3c;--accent:#fef9e7;--card:rgba(243,156,18,.08);--text:#fef9e7;}
+.theme-maths{background:linear-gradient(180deg,#0a2647,#1a4a72,#296e8f);--primary:#3498db;--secondary:#2ecc71;--accent:#ecf0f1;--card:rgba(52,152,219,.08);--text:#ecf0f1;}
+.theme-resultat{background:linear-gradient(180deg,#1a1a2e,#2d2d4a,#404068);--primary:#9b59b6;--secondary:#3498db;--accent:#f8f8ff;--card:rgba(155,89,182,.08);--text:#f8f8ff;}
+
+.exercise-page{padding:68px 14px 44px;align-items:center;}
+.ex-header{text-align:center;margin-bottom:18px;max-width:680px;width:100%;}
+.ex-header h1{font-size:clamp(1.2rem,4.5vw,2rem);color:var(--text);margin-bottom:3px;}
+.ex-header p{color:var(--text);opacity:.55;font-size:.85rem;}
+.ex-content{max-width:680px;width:100%;display:flex;flex-direction:column;gap:14px;}
+.ex-section{background:var(--card);border-radius:13px;padding:16px 14px;border:1px solid rgba(128,128,128,.1);}
+.ex-section h2{font-size:1.1rem;color:var(--primary);margin-bottom:10px;}
+.ex-section h3{font-size:.95rem;color:var(--secondary);margin:12px 0 7px;}
+.q-row{display:flex;align-items:center;gap:7px;margin-bottom:9px;flex-wrap:wrap;}
+.q-row label{color:var(--text);font-size:.9rem;flex:1;min-width:130px;}
+.q-row input,.q-row textarea{padding:8px 11px;border-radius:9px;border:2px solid rgba(128,128,128,.15);background:rgba(128,128,128,.07);color:var(--text);font-family:'Nunito',sans-serif;font-size:.9rem;transition:border-color .25s;min-width:0;}
+.q-row input{width:180px;max-width:100%;}
+.q-row textarea{width:100%;min-height:55px;resize:vertical;}
+.q-row input:focus,.q-row textarea:focus{outline:none;border-color:var(--primary);background:rgba(128,128,128,.1);}
+.q-text{color:var(--text);margin-bottom:7px;line-height:1.6;font-size:.88rem;}
+.result{font-size:.78rem;font-weight:700;margin-left:3px;white-space:nowrap;}
+.result.ok{color:#2ecc71;}
+.result.fail{color:#e63946;}
+.result.info{color:#3498db;}
+
+.explanation-box{background:linear-gradient(135deg,rgba(52,152,219,.1),rgba(155,89,182,.1));border:2px solid var(--primary);border-radius:13px;padding:20px;margin-top:14px;display:none;}
+.explanation-box.show{display:block;animation:fadeUp .4s ease;}
+.explanation-box h3{color:var(--primary);margin-bottom:12px;font-size:1.1rem;display:flex;align-items:center;gap:8px;}
+.explanation-item{background:rgba(255,255,255,.05);border-radius:10px;padding:12px;margin-bottom:10px;border-left:4px solid var(--secondary);}
+.explanation-item q{color:var(--secondary);font-style:italic;font-weight:600;}
+.explanation-item .exp-answer{color:var(--primary);font-weight:700;margin-top:4px;}
+.explanation-item .exp-detail{color:var(--text);font-size:.85rem;margin-top:4px;line-height:1.5;}
+
+.table-container{overflow-x:auto;margin:10px 0;}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:10px 12px;text-align:left;border:1px solid rgba(128,128,128,.2);}
+th{background:var(--primary);color:#fff;font-weight:700;}
+tr:nth-child(even){background:rgba(128,128,128,.05);}
+
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;width:100%;margin:0 auto;padding:20px 14px;}
+.menu-card{border-radius:14px;padding:20px 16px;cursor:pointer;transition:all .25s;text-align:center;}
+.menu-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,.3);}
+.menu-card h3{font-size:1.1rem;color:#fff;margin-bottom:6px;}
+.menu-card p{font-size:.85rem;opacity:.7;color:#fff;}
+.menu-card i{font-size:2.5rem;display:block;margin-bottom:10px;}
+
+@media(min-width:600px){
+  .menu-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  .q-row input{width:220px;}
+}
+@media(max-width:380px){
+  .q-row{flex-direction:column;align-items:stretch;}
+  .q-row label{min-width:auto;}
+  .q-row input{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="points-bar">
+  <div class="logo"><i class="fas fa-book-open"></i> Exercices</div>
+  <div class="stars"><i class="fas fa-star"></i> <span id="ptsNum">0</span>/<span id="ptsMax">10</span></div>
+  <div class="progress"><div class="progress-fill" id="ptsBar" style="width:0%"></div></div>
+</div>
+
+<div class="lilo-bubble" id="liloBox">
+  <div class="bubble" id="liloMsg"><button class="close-lilo" onclick="hideLilo()"><i class="fas fa-times"></i></button><div id="liloTxt"></div></div>
+  <div class="lilo-avatar">🦎</div>
+</div>
+
+<!-- PAGE MENU -->
+<section class="page page-menu active" id="page-menu" style="background:linear-gradient(160deg,#1a1a2e 0%,#2d2d4a 30%,#4a4a6a 60%,#6b6b8a 100%);">
+  <div style="text-align:center;padding:40px 18px 30px;">
+    <span style="font-size:clamp(3rem,10vw,6rem);display:inline-block;margin-bottom:10px;animation:float 3s ease infinite;">📚</span>
+    <h1 style="font-size:clamp(1.8rem,6vw,3rem);color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,.3);margin-bottom:12px;">Exercices de Grammaire & Maths</h1>
+    <p style="color:rgba(255,255,255,.8);font-size:clamp(1rem,3.5vw,1.2rem);">Choisis ton exercice ✨</p>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card" style="background:linear-gradient(135deg,#f39c1220,#4a2511);" onclick="goTo('grammaire')">
+      <i style="color:#f39c12;">✏️</i>
+      <h3 style="color:#f39c12;">Exercice 1</h3>
+      <p>Le féminin des groupes nominaux</p>
+    </div>
+    <div class="menu-card" style="background:linear-gradient(135deg,#3498db20,#0a2647);" onclick="goTo('maths')">
+      <i style="color:#3498db;">🔢</i>
+      <h3 style="color:#3498db;">Exercice 2</h3>
+      <p>Problèmes de fractions</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE GRAMMAIRE -->
+<section class="page exercise-page theme-grammaire" id="page-grammaire"></section>
+
+<!-- PAGE MATHS -->
+<section class="page exercise-page theme-maths" id="page-maths"></section>
+
+<script>
+const TOTAL = 10;
+
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById('page-' + id);
+  if (t) {
+    t.classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'menu') renderMenu();
+    else if (id === 'grammaire') initGrammaire();
+    else if (id === 'maths') initMaths();
+  }
+}
+
+function getP() { return parseInt(localStorage.getItem('tp') || '0'); }
+function setP(v) { localStorage.setItem('tp', v); updUI(); }
+function addP(n) { setP(getP() + n); }
+function updUI() {
+  document.getElementById('ptsNum').textContent = getP();
+  document.getElementById('ptsBar').style.width = (getP() / TOTAL * 100) + '%';
+}
+
+let liloTimer;
+function showLilo(title, text, type) {
+  const b = document.getElementById('liloBox');
+  const t = document.getElementById('liloTxt');
+  document.getElementById('liloMsg').className = 'bubble ' + (type || 'right');
+  let html = '<div class="lilo-title ' + (type === 'wrong' ? 'err' : 'ok') + '">' + title + '</div><div>' + text + '</div>';
+  t.innerHTML = html;
+  b.classList.add('show');
+  clearTimeout(liloTimer);
+  liloTimer = setTimeout(hideLilo, 8000);
+}
+function hideLilo() { document.getElementById('liloBox').classList.remove('show'); }
+
+function backBtn() {
+  return `<button class="btn btn-back" onclick="goTo('menu')"><i class="fas fa-arrow-left"></i> Retour</button>`;
+}
+
+function exHead(icon, title, sub) {
+  return `<div class="ex-header">${backBtn()}<h1>${icon} ${title}</h1><p>${sub}</p></div>`;
+}
+
+// ============================================
+// EXERCICE 1 - GRAMMAIRE (LE FÉMININ)
+// ============================================
+function initGrammaire() {
+  const page = document.getElementById('page-grammaire');
+  page.innerHTML = backBtn() +
+    exHead('✏️', 'Le Féminin des Groupes Nominaux', 'Grammaire - Exercice 1') +
+    `<div class="ex-content" id="grC">` +
+
+    // Partie 1 : Identification
+    `<div class="ex-section"><h2>📝 Partie 1 — Identification</h2>` +
+    `<p class="q-text">Mets les groupes nominaux suivants au <b>féminin</b>. Indique si tu entends un changement ou pas.</p>` +
+    `<div class="q-row"><label>• mon frère ainé →</label><input data-i="0" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• un pauvre marchand →</label><input data-i="1" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• l'ami étrange →</label><input data-i="2" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• ce gentil cheval →</label><input data-i="3" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• ce passager patient →</label><input data-i="4" placeholder="..."><span class="result"></span></div></div>` +
+
+    // Partie 2 : Reproduction du tableau
+    `<div class="ex-section"><h2>📋 Partie 2 — Reproduction du tableau</h2>` +
+    `<p class="q-text">Classe ces groupes nominaux dans le tableau :</p>` +
+    `<div class="table-container"><table>` +
+    `<thead><tr><th>Masculin</th><th>Féminin</th></tr></thead>` +
+    `<tbody>` +
+    `<tr><td>des chiens affamés</td><td><input data-i="5" placeholder="Écris le féminin..." style="width:100%;"></td></tr>` +
+    `<tr><td>une étudiante sérieuse</td><td><input data-i="6" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
+    `<tr><td>des casques médiévaux</td><td><input data-i="7" placeholder="Écris le féminin..." style="width:100%;"></td></tr>` +
+    `<tr><td>les jolies statues</td><td><input data-i="8" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
+    `<tr><td>les feuilles volantes</td><td><input data-i="9" placeholder="Écris le masculin..." style="width:100%;"></td></tr>` +
+    `</tbody></table></div></div>` +
+
+    // Partie 3 : Transposition
+    `<div class="ex-section"><h2>🔄 Partie 3 — Transposition</h2>` +
+    `<p class="q-text">Transforme les groupes nominaux suivants au <b>féminin</b>. Fais les modifications nécessaires.</p>` +
+    `<div class="q-row"><label>• un avocat renommé →</label><input data-i="10" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• un sportif musclé →</label><input data-i="11" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• un musicien talentueux →</label><input data-i="12" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• un chat sauvage →</label><input data-i="13" placeholder="..."><span class="result"></span></div></div>` +
+
+    // Partie 4 : Application adjectifs
+    `<div class="ex-section"><h2>💡 Application — Féminin des adjectifs</h2>` +
+    `<p class="q-text">Écris le <b>féminin</b> des adjectifs suivants :</p>` +
+    `<div class="q-row"><label>• sec →</label><input data-i="14" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• roux →</label><input data-i="15" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• faux →</label><input data-i="16" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• frais →</label><input data-i="17" placeholder="..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• valide →</label><input data-i="18" placeholder="..."><span class="result"></span></div></div>` +
+
+    // Partie 5 : Application complétion
+    `<div class="ex-section"><h2>🎯 Application — Complète les groupes</h2>` +
+    `<p class="q-text">Complète les groupes nominaux suivants avec un <b>nom de ton choix</b> :</p>` +
+    `<div class="q-row"><label>• la petite ... lumineuse</label><input data-i="19" placeholder="un nom..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• une vieille ... abandonnée</label><input data-i="20" placeholder="un nom..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• une longue ... sinueuse</label><input data-i="21" placeholder="un nom..."><span class="result"></span></div>` +
+    `<div class="q-row"><label>• une nouvelle ... brillante</label><input data-i="22" placeholder="un nom..."><span class="result"></span></div></div>` +
+
+    // Boutons
+    `<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">` +
+    `<button class="btn btn-submit" style="background:var(--primary);color:var(--accent);" onclick="chkGram()"><i class="fas fa-check"></i> Vérifier mes réponses</button>` +
+    `<button class="btn btn-restart" onclick="restartGram()"><i class="fas fa-redo"></i> Recommencer</button>` +
+    `</div>` +
+
+    // Boîte d'explications
+    `<div class="explanation-box" id="grExp">` +
+    `<h3><i class="fas fa-lightbulb"></i> Explications détaillées</h3>` +
+    `<div class="explanation-item"><q>mon frère ainé</q><div class="exp-answer">→ ma sœur ainée</div><div class="exp-detail"><b>Changements :</b> frère → sœur (nom), mon → ma (déterminant). Le mot "ainé" est un adjectif qui ne change pas.</div></div>` +
+    `<div class="explanation-item"><q>un pauvre marchand</q><div class="exp-answer">→ une pauvre marchande</div><div class="exp-detail"><b>Changements :</b> un → une (article), marchand → marchande (ajout du "e"). "Pauvre" ne change pas.</div></div>` +
+    `<div class="explanation-item"><q>l'ami étrange</q><div class="exp-answer">→ l'amie étrange</div><div class="exp-detail"><b>Changement :</b> ami → amie (nom). L'article "l'" et l'adjectif "étrange" restent identiques.</div></div>` +
+    `<div class="explanation-item"><q>ce gentil cheval</q><div class="exp-answer">→ cette gentille jument</div><div class="exp-detail"><b>Changements :</b> ce → cette (déterminant), gentil → gentille (adjectif), cheval → jument (nom féminin).</div></div>` +
+    `<div class="explanation-item"><q>ce passager patient</q><div class="exp-answer">→ cette passagère patiente</div><div class="exp-detail"><b>Changements :</b> ce → cette, passager → passagère, patient → patiente.</div></div>` +
+
+    `<h3 style="margin-top:20px;"><i class="fas fa-table"></i> Tableau Masculin/Féminin</h3>` +
+    `<div class="explanation-item"><q>des chiens affamés</q><div class="exp-answer">→ des chiennes affamées</div><div class="exp-detail">Ajout d'un "e" au nom.</div></div>` +
+    `<div class="explanation-item"><q>une étudiante sérieuse</q><div class="exp-answer">→ un étudiant sérieux</div><div class="exp-detail">Remplacement de "e" par rien ou "x", "e" par "eux".</div></div>` +
+    `<div class="explanation-item"><q>des casques médiévaux</q><div class="exp-answer">→ des casques médiévales</div><div class="exp-detail">Adjectif : médiéval → médiévale (ajout d'un "e").</div></div>` +
+    `<div class="explanation-item"><q>les jolies statues</q><div class="exp-answer">→ les jolis statuts</div><div class="exp-detail">Adjectif : jolie → joli (masculin), statue → statut (nom).</div></div>` +
+    `<div class="explanation-item"><q>les feuilles volantes</q><div class="exp-answer">→ les feuils volants</div><div class="exp-detail">Nom : feuille → feuil (masculin), adjectif inchangé.</div></div>` +
+
+    `<h3 style="margin-top:20px;"><i class="fas fa-exchange-alt"></i> Transposition</h3>` +
+    `<div class="explanation-item"><q>un avocat renommé</q><div class="exp-answer">→ une avocate renommée</div><div class="exp-detail">un → une, avocat → avocate.</div></div>` +
+    `<div class="explanation-item"><q>un sportif musclé</q><div class="exp-answer">→ une sportive musclée</div><div class="exp-detail">un → une, sportif → sportive.</div></div>` +
+    `<div class="explanation-item"><q>un musicien talentueux</q><div class="exp-answer">→ une musicienne talentueuse</div><div class="exp-detail">un → une, musicien → musicienne.</div></div>` +
+    `<div class="explanation-item"><q>un chat sauvage</q><div class="exp-answer">→ une chatte sauvage</div><div class="exp-detail">un → une, chat → chatte.</div></div>` +
+
+    `<h3 style="margin-top:20px;"><i class="fas fa-spell-check"></i> Féminin des adjectifs</h3>` +
+    `<div class="explanation-item"><q>sec</q><div class="exp-answer">→ sèche</div></div>` +
+    `<div class="explanation-item"><q>roux</q><div class="exp-answer">→ rousse</div></div>` +
+    `<div class="explanation-item"><q>faux</q><div class="exp-answer">→ fausse</div></div>` +
+    `<div class="explanation-item"><q>frais</q><div class="exp-answer">→ fraîche</div></div>` +
+    `<div class="explanation-item"><q>valide</q><div class="exp-answer">→ valide</div><div class="exp-detail">Cet adjectif est invariant !</div></div>` +
+    `</div></div>`;
+
+  window._grAns=[
+    'ma sœur ainée','une pauvre marchande',"l'amie étrange",'cette gentille jument','cette passagère patiente',
+    'des chiennes affamées','un étudiant sérieux','des casques médiévales','les jolis statuts','les feuils volants',
+    'une avocate renommée','une sportive musclée','une musicienne talentueuse','une chatte sauvage',
+    'sèche','rousse','fausse','fraîche','valide',
+    'lampe','maison','route','étoile'
+  ];
+  
+  window._grHints=[
+    'frère→sœur, mon→ma',
+    'marchand→marchande, un→une',
+    'ami→amie',
+    'cheval→jument, ce→cette, gentil→gentille',
+    'passager→passagère, ce→cette',
+    'chien→chienne (+e)',
+    'étudiante→étudiant (-e)',
+    'médiéval→médiévale',
+    'jolie→joli, statue→statut',
+    'feuille→feuil',
+    'avocat→avocate',
+    'sportif→sportive',
+    'musicien→musicienne',
+    'chat→chatte',
+    'sec→sèche',
+    'roux→rousse',
+    'faux->fausse',
+    'frais→fraîche',
+    'valide=invariant !',
+    'ex: lampe, fenêtre...',
+    'ex: maison, voiture...',
+    'ex: route, vallée...',
+    'ex: étoile, lune...'
+  ];
+}
+
+function chkGram(){
+  checkAll('grC', window._grAns, window._grHints, 'grammaire');
+  document.getElementById('grExp').classList.add('show');
+}
+
+function restartGram(){
+  const inputs = document.querySelectorAll('#grC input[data-i]');
+  inputs.forEach(inp => {
+    inp.value = '';
+    inp.style.borderColor = '';
+    const r = inp.parentElement.querySelector('.result');
+    if(r){ r.className='result'; r.innerHTML=''; }
+  });
+  document.getElementById('grExp').classList.remove('show');
+  hideLilo();
+  window.scrollTo({top: 100, behavior: 'smooth'});
+}
+
+// ============================================
+// EXERCICE 2 - MATHS (FRACTIONS)
+// ============================================
+function initMaths() {
+  const page = document.getElementById('page-maths');
+  page.innerHTML = backBtn() +
+    exHead('🔢', 'Problèmes de Fractions', 'Mathématiques - Exercice 2') +
+    `<div class="ex-content" id="mtC">` +
+
+    // Problème 1
+    `<div class="ex-section"><h2>⭐ Problème 1 — Athlétisme</h2>` +
+    `<p class="q-text">Karim a parcouru <b>3/4</b> de la piste d'athlétisme de <b>400m</b>, avant d'avoir un point de côté.</p>` +
+    `<p class="q-text"><b>Quelle distance a-t-il parcourue avant son point de côté ?</b></p>` +
+    `<div class="q-row"><label>Réponse (en mètres) :</label><input data-i="0" placeholder="... m"><span class="result"></span></div></div>` +
+
+    // Problème 2
+    `<div class="ex-section"><h2>⭐⭐ Problème 2 — Jardinier</h2>` +
+    `<p class="q-text">Un jardinier a planté <b>2/3</b> de ses <b>24 plants</b> de tulipe.</p>` +
+    `<div class="q-row"><label>a) Combien de plants a-t-il plantés ?</label><input data-i="1" placeholder="... plants"><span class="result"></span></div>` +
+    `<div class="q-row"><label>b) Combien lui reste-t-il à planter ?</label><input data-i="2" placeholder="... plants"><span class="result"></span></div></div>` +
+
+    // Problème 3
+    `<div class="ex-section"><h2>⭐ Problème 3 — Timbres</h2>` +
+    `<p class="q-text">Charlotte a déjà utilisé <b>2/3</b> d'un carnet de <b>12 timbres</b>.</p>` +
+    `<div class="q-row"><label>Combien de timbres a-t-elle utilisés ?</label><input data-i="3" placeholder="... timbres"><span class="result"></span></div></div>` +
+
+    // Problème 4
+    `<div class="ex-section"><h2>⭐⭐ Problème 4 — Lecture</h2>` +
+    `<p class="q-text">Claire a lu <b>1/3</b> de son livre de <b>96 pages</b>.</p>` +
+    `<div class="q-row"><label>a) Combien de pages a-t-elle lues ?</label><input data-i="4" placeholder="... pages"><span class="result"></span></div>` +
+    `<div class="q-row"><label>b) Combien de pages lui reste-t-il à lire ?</label><input data-i="5" placeholder="... pages"><span class="result"></span></div></div>` +
+
+    // Boutons
+    `<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">` +
+    `<button class="btn btn-submit" style="background:var(--primary);color:var(--accent);" onclick="chkMath()"><i class="fas fa-check"></i> Vérifier mes réponses</button>` +
+    `<button class="btn btn-restart" onclick="restartMath()"><i class="fas fa-redo"></i> Recommencer</button>` +
+    `</div>` +
+
+    // Boîte d'explications
+    `<div class="explanation-box" id="mtExp">` +
+    `<h3><i class="fas fa-calculator"></i> Solutions détaillées</h3>` +
+
+    `<div class="explanation-item"><strong>🏃 Problème 1 — Athlétisme</strong><br><br>` +
+    `<q>Karim a parcouru 3/4 de 400m</q><div class="exp-answer">Réponse : 300 mètres</div>` +
+    `<div class="exp-detail"><b>Calcul :</b><br>` +
+    `• Fraction à calculer : 3/4<br>` +
+    `• Total : 400 m<br>` +
+    `• Opération : 400 × 3/4 = 400 × 3 ÷ 4<br>` +
+    `• 400 × 3 = 1200<br>` +
+    `• 1200 ÷ 4 = <b>300 m</b></div></div>` +
+
+    `<div class="explanation-item"><strong>🌷 Problème 2 — Jardinier</strong><br><br>` +
+    `<q>2/3 de 24 plants de tulipe</q><div class="exp-answer">a) 16 plants plantés | b) 8 plants restants</div>` +
+    `<div class="exp-detail"><b>a) Plants plantés :</b><br>` +
+    `• Calcul : 24 × 2/3<br>` +
+    `• 24 × 2 = 48<br>` +
+    `• 48 ÷ 3 = <b>16 plants</b><br><br>` +
+    `<b>b) Plants restants :</b><br>` +
+    `• Total - plantés = 24 - 16<br>` +
+    `• Ou : 24 × 1/3 = <b>8 plants</b></div></div>` +
+
+    `<div class="explanation-item"><strong>📮 Problème 3 — Timbres</strong><br><br>` +
+    `<q>2/3 de 12 timbres utilisés</q><div class="exp-answer">Réponse : 8 timbres</div>` +
+    `<div class="exp-detail"><b>Calcul :</b><br>` +
+    `• Fraction : 2/3<br>` +
+    `• Total : 12 timbres<br>` +
+    `• Opération : 12 × 2/3<br>` +
+    `• 12 × 2 = 24<br>` +
+    `• 24 ÷ 3 = <b>8 timbres</b></div></div>` +
+
+    `<div class="explanation-item"><strong>📖 Problème 4 — Lecture</strong><br><br>` +
+    `<q>1/3 d'un livre de 96 pages</q><div class="exp-answer">a) 32 pages lues | b) 64 pages restantes</div>` +
+    `<div class="exp-detail"><b>a) Pages lues :</b><br>` +
+    `• Calcul : 96 × 1/3<br>` +
+    `• 96 × 1 = 96<br>` +
+    `• 96 ÷ 3 = <b>32 pages</b><br><br>` +
+    `<b>b) Pages restantes :</b><br>` +
+    `• Méthode 1 : 96 - 32 = <b>64 pages</b><br>` +
+    `• Méthode 2 : 96 × 2/3 = <b>64 pages</b></div></div>` +
+
+    `<h3 style="margin-top:20px;"><i class="fas fa-info-circle"></i> Rappel important</h3>` +
+    `<div class="explanation-item" style="border-left-color:#f39c12;"><b>Pour calculer une fraction d'un nombre :</b><br>` +
+    `• Multiplier le nombre par le numérateur (en haut)<br>` +
+    `• Diviser le résultat par le dénominateur (en bas)<br><br>` +
+    `<b>Exemple :</b> 3/4 de 200 = 200 × 3 ÷ 4 = 600 ÷ 4 = 150</div></div>` +
+    `</div></div>`;
+
+  window._mtAns=['300','16','8','8','32','64'];
+  window._mtHints=[
+    '400 × 3/4 = 300 m',
+    '24 × 2/3 = 16 plants',
+    '24 - 16 = 8 plants (ou 24 × 1/3)',
+    '12 × 2/3 = 8 timbres',
+    '96 × 1/3 = 32 pages',
+    '96 - 32 = 64 pages (ou 96 × 2/3)'
+  ];
+}
+
+function chkMath(){
+  checkAll('mtC', window._mtAns, window._mtHints, 'maths');
+  document.getElementById('mtExp').classList.add('show');
+}
+
+function restartMath(){
+  const inputs = document.querySelectorAll('#mtC input[data-i]');
+  inputs.forEach(inp => {
+    inp.value = '';
+    inp.style.borderColor = '';
+    const r = inp.parentElement.querySelector('.result');
+    if(r){ r.className='result'; r.innerHTML=''; }
+  });
+  document.getElementById('mtExp').classList.remove('show');
+  hideLilo();
+  window.scrollTo({top: 100, behavior: 'smooth'});
+}
+
+// Fonction utilitaire de vérification
+function checkAll(cid, ans, hints, exId) {
+  const c = document.getElementById(cid);
+  if (!c) return false;
+  const inputs = c.querySelectorAll('input[data-i]');
+  let allOk = true, firstErr = null;
+  inputs.forEach(inp => {
+    const idx = parseInt(inp.dataset.i);
+    const val = inp.value.trim().toLowerCase().replace(/\s+/g,' ').replace(/,/g,'.');
+    const correct = ans[idx].toLowerCase().replace(/\s+/g,' ').replace(/,/g,'.');
+    let ok = val === correct;
+    if (!ok && val.length > 1 && correct.includes(val)) ok = true;
+    const r = inp.parentElement.querySelector('.result') || document.createElement('span');
+    r.className = 'result';
+    if (ok) { 
+      r.className='result ok'; 
+      r.innerHTML=' <i class="fas fa-check-circle"></i>'; 
+      inp.style.borderColor='#2ecc71'; 
+    } else { 
+      allOk=false; 
+      r.className='result fail'; 
+      r.innerHTML=' <i class="fas fa-times-circle"></i>'; 
+      inp.style.borderColor='#e63946'; 
+      if(!firstErr) firstErr={idx,hint:hints[idx],ans:ans[idx]}; 
+    }
+    if (!inp.parentElement.querySelector('.result')) inp.parentElement.appendChild(r);
+  });
+  if (allOk) { 
+    showLilo('Bravo ! 🎉','Toutes les réponses sont correctes ! Excellent travail !','right'); 
+    if (!localStorage.getItem('td_' + exId)) { 
+      localStorage.setItem('td_' + exId, '1'); 
+      addP(5); 
+    } 
+  } else { 
+    showLilo('Oups... 😅',firstErr.hint,'wrong',`<b>Bonne réponse :</b> ${firstErr.ans}`); 
+  }
+  return allOk;
+}
+
+// Initialisation
+renderMenu();
+
+function renderMenu() {
+  // Menu déjà en HTML statique, juste mettre à jour les étoiles si besoin
+  updUI();
+}
+</script>
+</body>
+</html>
